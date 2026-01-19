@@ -1,5 +1,5 @@
 # Audit de Conformité - CAS 3
-Script Bash pour l'automatisation du contrôle de fichiers entrants. Projet réalisé par Ridwan & Henri (Sup de Vinci).
+Script Bash pour l'automatisation du contrôle de fichiers entrants. Projet réalisé par Ridwan ABDOULKADER HOUMED & Henri TURCAS (Sup de Vinci).
 
 ## Prérequis
 - Bash 4.0+
