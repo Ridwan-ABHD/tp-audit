@@ -1,0 +1,4 @@
+timestamp,event,level
+2026-01-19T10:00:00,startup,INFO
+2026-01-19T10:01:00,error,ERROR
+2026-01-19T10:02:00,warning,WARN

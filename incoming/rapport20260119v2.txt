@@ -1,0 +1,2 @@
+Ceci est un fichier texte qui devrait être CSV ou JSON
+Mais il a une mauvaise extension .txt
