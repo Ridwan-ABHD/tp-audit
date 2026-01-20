@@ -1,15 +1,28 @@
 # Audit de Conformité - CAS 3
-Script Bash pour l'automatisation du contrôle de fichiers entrants. Projet réalisé par Ridwan ABDOULKADER HOUMED & Henri TURCAS (Sup de Vinci).
+
+**Auteurs :** Ridwan ABDOULKADER HOUMED & Henri TURCAS (Sup de Vinci)
+
+Scripts d'automatisation du contrôle de conformité de fichiers entrants (Bash et PowerShell).
 
 ## Prérequis
-- Bash 4.0+
-- Dossier `incoming/` avec les fichiers à auditer
+
+- **Bash** 4.0+ (Linux/WSL)
+- **PowerShell** 5.1+ (Windows)
+- Dossier `incoming/` contenant les fichiers à auditer
 
 ## Lancement
+
+### Bash (Linux/WSL)
 ```bash
 chmod +x audit.sh
 ./audit.sh STRICT    # Mode exigeant
 ./audit.sh RELAXED   # Mode tolérant
+```
+
+### PowerShell (Windows)
+```powershell
+.\audit.ps1 STRICT   # Mode exigeant
+.\audit.ps1 RELAXED  # Mode tolérant
 ```
 
 ## Règles de validation
@@ -27,7 +40,7 @@ Format exact : `[a-z]{3,10}_YYYYMMDD_v[0-9]{1,3}.[csv|json]`
 - `projet_20241399_v1.csv` (date invalide)
 
 ### Métadonnées
-Fichier `.meta` associé obligatoire avec structure :
+Fichier `.meta` associé avec structure clé=valeur :
 ```
 author=Nom
 source=systeme
@@ -37,9 +50,9 @@ checksum=abc123def456
 
 ## Modes
 
-**STRICT :** Le .meta et les 4 clés (author, source, created_at, checksum) sont obligatoires.
+**STRICT :** Le fichier `.meta` et les 4 clés (author, source, created_at, checksum) sont obligatoires. Toute absence → NON_CONFORME.
 
-**RELAXED :** Le .meta peut être absent (→ AMBIGU). Si présent, seuls author et source sont obligatoires. Absence de created_at ou checksum → AMBIGU.
+**RELAXED :** Le `.meta` peut être absent → statut AMBIGU. Si présent, author et source sont obligatoires. Absence de created_at ou checksum → statut AMBIGU.
 
 ## Résultats
 

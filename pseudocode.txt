@@ -1,0 +1,66 @@
+# 1. INITIALISATION
+- RÉCUPÉRER le paramètre fourni (MODE_CONVENTION)
+- CRÉER la variable DATE_JOUR (format : Année-Mois-Jour_HeureMinute) 
+- INITIALISER les compteurs : conformes = 0, non_conformes = 0, ambigus = 0 
+- PRÉPARER le fichier de rapport : "audit_report_DATE_JOUR.csv" avec les colonnes "Nom, Statut, Raisons"
+- OUVRIR un fichier de Log pour l'exécution 
+
+# 2. VÉRIFICATIONS
+- SI le dossier "/incoming/" n'existe pas :
+    - ÉCRIRE "Erreur : dossier source introuvable" 
+    - ARRÊTER le script (code erreur 1)
+- SI le MODE_CONVENTION n'est ni "STRICT" ni "RELAXED" :
+    - AFFICHER "Erreur : le mode doit être STRICT ou RELAXED"
+    - ARRÊTER le script 
+
+# 3. TRAITEMENT
+- POUR CHAQUE élément dans le dossier "/incoming/" :
+
+    A. FILTRER : Si l'élément est un dossier ou un fichier finit par ".meta", l'ignorer 
+    B. VÉRIFIER L'EXTENSION : 
+       - SI l'extension n'est pas ".csv" ET pas ".json" :
+           - STATUT = "NON_CONFORME"
+           - RAISON = "Extension interdite"
+           - ALLER à l'étape E (Enregistrement) 
+    C. VÉRIFIER LE NOM : 
+       - TESTER le nom par rapport au format : "minuscules(3-10)_8chiffres_v(1-3chiffres)"
+       - SI le format n'est pas respecté :
+           - STATUT = "NON_CONFORME"
+           - RAISON = "Nommage invalide"
+           - ALLER à l'étape E (Enregistrement) 
+
+    D. ANALYSER LES MÉTADONNÉES (.meta associé) : 
+       - RECHERCHER le fichier ".meta" portant le même nom que le fichier principal
+       - SI MODE == "STRICT" : 
+           - SI le fichier ".meta" est absent OU s'il manque "author", "source" ou "created_at" :
+               - STATUT = "NON_CONFORME"
+               - RAISON = "Métadonnées obligatoires manquantes"
+           - SINON :
+               - STATUT = "CONFORME"
+       - SI MODE == "RELAXED" : 
+           - SI le fichier ".meta" est absent :
+               - STATUT = "AMBIGU"
+               - RAISON = "Mode Relaxed : fichier meta absent" 
+           - SINON SI les clés "author" ou "source" sont manquantes :
+               - STATUT = "NON_CONFORME"
+               - RAISON = "Champs obligatoires absents dans le meta" 
+           - SINON SI "created_at" ou "checksum" sont manquants :
+               - STATUT = "AMBIGU"
+               - RAISON = "Champs optionnels absents" 
+           - SINON :
+               - STATUT = "CONFORME"
+    E. ENREGISTREMENT DU RÉSULTAT :
+       - ÉCRIRE le nom du fichier, le statut et la raison dans le rapport CSV 
+       - AJOUTER +1 au compteur du statut correspondant 
+
+# 4. CONTRÔLES (Bilan)
+- VÉRIFIER que le nombre total de fichiers dans le rapport est égal au nombre de fichiers traités 
+
+# 5. FINALISATION
+- ÉCRIRE dans le fichier Log :
+    - Date et heure de fin
+    - Mode utilisé 
+    - Résumé : X Conformes, Y Non conformes, Z Ambigus 
+- AFFICHER à l'écran : "Audit terminé. Rapport disponible : [Chemin du CSV]"
+
+FIN DU SCRIPT
