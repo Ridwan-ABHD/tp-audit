@@ -42,7 +42,7 @@ foreach ($Fichier in $Fichiers) {
         $Statut = "NON_CONFORME"
         $Raison = "Extension $($Fichier.Extension) interdite"
     }
-    # B. Vérification du nom (Regex -cnotmatch pour forcer les minuscules)
+    # B. Vérification du nom 
     elseif ($Fichier.BaseName -cnotmatch "^[a-z]{3,10}_\d{8}_v\d{1,3}$") {
         $Statut = "NON_CONFORME"
         $Raison = "Format de nom invalide (minuscules obligatoires)"

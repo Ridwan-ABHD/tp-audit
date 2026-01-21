@@ -54,6 +54,9 @@ checksum=abc123def456
 
 **RELAXED :** Le `.meta` peut être absent → statut AMBIGU. Si présent, author et source sont obligatoires. Absence de created_at ou checksum → statut AMBIGU.
 
+## Lancement Automatique
+Lancement de l'audit en continu (exécution chaque matin à 8h) grâce au Crontab. 
+
 ## Résultats
 
 **Rapport CSV :** `audit_report_YYYY-MM-DD_HHMM.csv` - Fichiers groupés par statut (Conforme, Ambigu, Non Conforme).
