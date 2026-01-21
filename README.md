@@ -1,4 +1,4 @@
-# Audit de Conformité - CAS 3
+# Audit de Conformité
 
 **Auteurs :** Ridwan ABDOULKADER HOUMED & Henri TURCAS (Sup de Vinci)
 

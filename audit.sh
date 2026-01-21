@@ -2,6 +2,12 @@
 
 # BLOC 1 : INITIALISATION
 MODE=$1
+
+if [[ "$MODE" != "STRICT" && "$MODE" != "RELAXED" ]]; then
+    echo "Usage : ./audit.sh [STRICT|RELAXED]"
+    exit 1
+fi
+
 DATE_JOUR=$(date +%Y-%m-%d_%H%M)
 DOSSIER_SOURCE="incoming"
 RAPPORT="audit_report_${DATE_JOUR}.csv"
@@ -11,16 +17,8 @@ TMP_C="tmp_conforme.csv"
 TMP_NC="tmp_non_conforme.csv"
 TMP_A="tmp_ambigu.csv"
 
+# BLOC 2
 > "$TMP_C"; > "$TMP_NC"; > "$TMP_A"
-
-nb_conforme=0; nb_non_conforme=0; nb_ambigu=0
-
-# BLOC 2 : VALIDATION MODE
-if [[ "$MODE" != "STRICT" && "$MODE" != "RELAXED" ]]; then
-    echo "Usage : ./audit.sh [STRICT|RELAXED]"
-    exit 1
-fi
-
 echo "$(date) - Début audit (Mode: $MODE)" >> "$LOG"
 
 # BLOC 3 : BOUCLE DE TRAITEMENT 
